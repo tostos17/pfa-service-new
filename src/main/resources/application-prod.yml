@@ -17,11 +17,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
+    defer-datasource-initialization: true
 
   servlet:
     multipart:
       max-file-size: 5MB # Limit for player photo uploads
 
+  sql:
+    init:
+      mode: always
 server:
   port: 8080
   forward-headers-strategy: native # Properly handles HTTPS termination from AWS ALB
