@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Production Infrastructure for Football Academy Backend API'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: production
+    Description: Environment stage name
+  DatabaseUsername:
+    Type: String
+    Default: academy_admin
+    NoEcho: true
+  DatabasePassword:
+    Type: String
+    NoEcho: true
+
+Resources:
+  # 1. ECS Cluster
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub '${EnvironmentName}-football-academy-cluster'
+
+  # 2. Log Group for Fargate Tasks
+  CloudWatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/ecs/${EnvironmentName}-football-academy-backend'
+      RetentionInDays: 30
+
+  # 3. Amazon RDS PostgreSQL Instance (Production Tier)
+  PostgreSQLDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: football_academy
+      Engine: postgres
+      EngineVersion: '16'
+      DBInstanceClass: db.t4g.micro
+      AllocatedStorage: '20'
+      MasterUsername: !Ref DatabaseUsername
+      MasterUserPassword: !Ref DatabasePassword
+      PubliclyAccessible: false
+      MultiAZ: false # Toggle to true for production high availability
+      StorageType: gp3
+      DeleteAutomatedBackups: false
+
+  # 4. Amazon S3 Bucket for Media & Generated CVs
+  AcademyStorageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${EnvironmentName}-football-academy-assets'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true

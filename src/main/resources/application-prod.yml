@@ -1,0 +1,31 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:football_academy}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate # Do not use 'update' or 'create-drop' in production
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+
+  servlet:
+    multipart:
+      max-file-size: 5MB # Limit for player photo uploads
+
+server:
+  port: 8080
+  forward-headers-strategy: native # Properly handles HTTPS termination from AWS ALB
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
+  expiration: 86400000 # 24 Hours in Milliseconds
