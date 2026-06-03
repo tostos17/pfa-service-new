@@ -42,7 +42,6 @@ public class PlayerProfile {
     private User parent;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
     @JoinTable(
             name = "player_groups",
             joinColumns = @JoinColumn(name = "player_profile_id"),

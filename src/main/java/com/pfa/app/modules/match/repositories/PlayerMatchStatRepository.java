@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface PlayerMatchStatRepository extends JpaRepository<PlayerMatchStat, Long> {
 
-    @Query("SELECT new com.footballacademy.backend.modules.match.dto.PerformanceLeaderboardDto(" +
+    @Query("SELECT new com.pfa.app.modules.match.dto.PerformanceLeaderboardDto(" +
             "p.id, u.firstName, u.lastName, " +
             "SUM(m.goals), " +
             "SUM(m.assists), " +

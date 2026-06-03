@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pfadb}
+    username: ${DB_USER:admin}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+
+  jpa:
+    hibernate:
+      ddl-auto: update # Do not use 'update' or 'create-drop' in production
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+
+  servlet:
+    multipart:
+      max-file-size: 5MB # Limit for player photo uploads
+
+  sql:
+    init:
+      mode: always
+
+server:
+  port: 8077
+  forward-headers-strategy: native # Properly handles HTTPS termination from AWS ALB
+
+jwt:
+  secret: ${JWT_SECRET_KEY:4r6lY0r0Vx8L4YvQ2bL3gP5s9FjN7mWd8aKcT1xZqE2uH9nRv6yBfP0kLs3Jd7wQYg2Mn8Cp5Tx4Vv1Ha9Rs6Kd0Zj7Xf3Lb}
+  expiration: 86400000 # 24 Hours in Milliseconds

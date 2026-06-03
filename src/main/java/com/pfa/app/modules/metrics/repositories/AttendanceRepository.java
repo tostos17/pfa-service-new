@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
-    @Query("SELECT new com.footballacademy.backend.modules.metrics.dto.AwardLeaderboardDto(" +
+    @Query("SELECT new com.pfa.app.modules.metrics.dto.AwardLeaderboardDto(" +
             "p.id, u.firstName, u.lastName, " +
             "COUNT(a.id), " +
             "SUM(CASE WHEN a.status = 'PRESENT' THEN 1 ELSE 0 END), " +
@@ -23,6 +23,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "JOIN p.user u " +
             "WHERE a.term.id = :termId " +
             "GROUP BY p.id, u.firstName, u.lastName " +
-            "ORDER BY punctualityCount DESC, attendancePercentage DESC")
+            "ORDER BY SUM(CASE WHEN a.status = 'PRESENT' AND a.isPunctual = true THEN 1 ELSE 0 END) DESC, " +
+            "(SUM(CASE WHEN a.status = 'PRESENT' THEN 1.0 ELSE 0.0 END) / COUNT(a.id)) * 100.0 DESC")
     List<AwardLeaderboardDto> getIronManLeaderboard(@Param("termId") Integer termId);
 }
