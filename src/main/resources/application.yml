@@ -8,7 +8,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update # Do not use 'update' or 'create-drop' in production
+      ddl-auto: validate # Do not use 'update' or 'create-drop' in production
     show-sql: false
     properties:
       hibernate:
@@ -22,6 +22,10 @@ spring:
   sql:
     init:
       mode: always
+
+  flyway:
+    baseline-on-migrate: true
+    validate-on-migrate: true
 
 server:
   port: 8077

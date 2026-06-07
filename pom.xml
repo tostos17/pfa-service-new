@@ -19,6 +19,7 @@
         <java.version>17</java.version>
         <io.jsonwebtoken.version>0.12.6</io.jsonwebtoken.version>
         <openpdf.version>2.0.2</openpdf.version>
+        <flyway.version>9.8.1</flyway.version>
     </properties>
 
     <dependencies>
@@ -62,6 +63,10 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
         </dependency>
 
         <dependency>

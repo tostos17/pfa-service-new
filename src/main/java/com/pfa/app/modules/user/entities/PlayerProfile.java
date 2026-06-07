@@ -48,4 +48,12 @@ public class PlayerProfile {
             inverseJoinColumns = @JoinColumn(name = "age_group_id")
     )
     private Set<AgeGroup> ageGroups = new HashSet<>();
+
+    private String originState;
+    private String nationality;
+    private String playerPhone;
+    private String playerAddress;
+    private String playerEmail;
+    private boolean hasHealthConcern;
+    private String healthConcernDescription;
 }
