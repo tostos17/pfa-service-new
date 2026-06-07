@@ -5,10 +5,12 @@ import com.pfa.app.modules.user.entities.PlayerProfile;
 import com.pfa.app.modules.user.repositories.AgeGroupRepository;
 import com.pfa.app.modules.user.repositories.PlayerProfileRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +18,17 @@ public class PlayerManagementService {
 
     private final PlayerProfileRepository playerRepository;
     private final AgeGroupRepository ageGroupRepository;
+
+    public ResponseEntity<List<PlayerProfile>> getAllPlayers(String search) {
+        if (search != null && !search.trim().isEmpty()) {
+            return ResponseEntity.ok(playerRepository.searchPlayers(search));
+        }
+        return ResponseEntity.ok(playerRepository.findAll());
+    }
+
+    public PlayerProfile onboardPlayer(PlayerProfile profile) {
+        return playerRepository.save(profile);
+    }
 
     @Transactional
     public void assignPlayerToGroup(Long playerProfileId, Integer ageGroupId, boolean bypassAgeCheck) {

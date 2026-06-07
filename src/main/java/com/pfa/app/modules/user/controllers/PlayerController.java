@@ -1,5 +1,7 @@
 package com.pfa.app.modules.user.controllers;
 
+import com.pfa.app.modules.user.dto.request.PlayerProfileRequestDto;
+import com.pfa.app.modules.user.entities.PlayerProfile;
 import com.pfa.app.modules.user.service.PlayerCvService;
 import com.pfa.app.modules.user.service.PlayerManagementService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/players")
 @RequiredArgsConstructor
@@ -15,6 +19,16 @@ public class PlayerController {
 
     private final PlayerManagementService playerManagementService;
     private final PlayerCvService playerCvService;
+
+    @GetMapping
+    public ResponseEntity<List<PlayerProfile>> getAllPlayers(@RequestParam(value = "search", required = false) String search) {
+        return playerManagementService.getAllPlayers(search);
+    }
+
+    @PostMapping
+    public PlayerProfile onboardingPlayer(@RequestBody PlayerProfileRequestDto profile) {
+        return playerManagementService.onboardPlayer(profile);
+    }
 
     @PostMapping("/{id}/groups/{groupId}")
     public ResponseEntity<String> assignToGroup(
